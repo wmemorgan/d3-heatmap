@@ -117,36 +117,57 @@ const chart = async () => {
 
   svg.append('text')
     .attr('x', width / 2)
-    .attr('y', height)
+    .attr('y', height - 20)
     .attr('class', 'labels')
     .text('Years')
 
   // Legend
-  // Based on tutorial by Nadia Bremer
-  // https://www.visualcinnamon.com/2016/05/smooth-color-legend-d3-svg-gradient.html
+  // Inspired by Seinfeld70 - https://codepen.io/Seinfeld/full/LBKQox/
   const legend = svg.append('g')
     .attr('id', 'legend')
 
-  //Append a defs (for definition) element to your SVG
-  var defs = svg.append("defs");
-
-  //Append a linearGradient element to the defs and give it a unique id
-  var linearGradient = defs.append("linearGradient")
-    .attr("id", "linear-gradient");
-
-  //Horizontal gradient
-  linearGradient
-    .attr("x1", "0%")
-    .attr("y1", "0%")
-    .attr("x2", "100%")
-    .attr("y2", "0%")
-
-  //Append multiple color stops by using D3's data/enter step
-  linearGradient.selectAll("stop")
+  // Add the color map
+  legend.selectAll("rect")
     .data(colors)
-    .enter().append("stop")
-    .attr("offset", (d, i) => i / (colors.length - 1))
-    .attr("stop-color", (d) => d)
+    .enter()
+    .append('rect')
+    .attr("width", (width - padding) / colors.length)
+    .attr("height", 20)
+    .attr('x', (d, i) => i * ((width - padding) / colors.length))
+    .attr('y', height + 20)
+    .style("fill", (d) => d)
+
+  let legendScale = d3.scaleLinear().domain([2.8, 12.8]).range([0, width - padding]);
+  legend.append('g')
+    .attr('transform', `translate(0, ${height + 45})`)
+    .call(d3.axisBottom(legendScale))
+
+  legend.append('text')
+    .attr('x', (width - padding) / 2)
+    .attr('y', height + 10)
+    .attr('id', 'legend-title')
+    .text('Temperature Gauge')
+
+  // //Append a defs (for definition) element to your SVG
+  // var defs = svg.append("defs");
+
+  // //Append a linearGradient element to the defs and give it a unique id
+  // var linearGradient = defs.append("linearGradient")
+  //   .attr("id", "linear-gradient");
+
+  // //Horizontal gradient
+  // linearGradient
+  //   .attr("x1", "0%")
+  //   .attr("y1", "0%")
+  //   .attr("x2", "100%")
+  //   .attr("y2", "0%")
+
+  // //Append multiple color stops by using D3's data/enter step
+  // linearGradient.selectAll("stop")
+  //   .data(colors)
+  //   .enter().append("stop")
+  //   .attr("offset", (d, i) => i / (colors.length - 1))
+  //   .attr("stop-color", (d) => d)
  
   // //Manually assign multiple colors  
   // linearGradient.selectAll("stop")
@@ -165,14 +186,6 @@ const chart = async () => {
   //   .enter().append("stop")
   //   .attr("offset", (d, i) => d.offset)
   //   .attr("stop-color", (d) => d.color)
-
-  //Draw the rectangle and fill with gradient
-  legend.append("rect")
-    .attr("width", (width-padding)/2)
-    .attr("height", 20)
-    .attr('x', padding*4)
-    .attr('y', height + 20)
-    .style("fill", "url(#linear-gradient)");  
 
   // Add heatmap
   svg.selectAll('rect')
