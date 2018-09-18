@@ -41,6 +41,12 @@ const chart = async () => {
   const minYear = d3.min(dataset.map(d => d.year))
   const maxYear = d3.max(dataset.map(d => d.year))
 
+  const minMonth = d3.min(dataset.map(d => d.month))
+  console.log(`minMonth`, minMonth)
+  const maxMonth = d3.max(dataset.map(d => d.month))
+  console.log(`maxMonth`, maxMonth)
+
+
   // Add labels 
   // Title
   svg.append('text')
