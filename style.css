@@ -36,7 +36,6 @@ body {
 #chart {
   width: 80%;
   margin: 0 auto;
-  padding: 0;
   border: 1px solid black;
   text-align: center;
   background: var(--overlay-bg-color);
@@ -45,6 +44,7 @@ body {
 .graph{
   margin: 0 auto;
   padding: 1rem;
+  padding-left: 2rem;
 }
 
 

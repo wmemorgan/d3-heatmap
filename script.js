@@ -91,6 +91,20 @@ const chart = async () => {
     .attr('id', 'y-axis')
     .attr('class', 'axis')
     .attr('transform', `translate(${padding}, 0)`)
+
+  // Axes Labels
+  svg.append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('x', -250)
+    .attr('y', -10)
+    .attr('class', 'labels')
+    .text('Months')
+
+  svg.append('text')
+    .attr('x', width / 2)
+    .attr('y', height)
+    .attr('class', 'labels')
+    .text('Years')
 }
 
 chart()
