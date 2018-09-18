@@ -37,15 +37,29 @@ const chart = async () => {
       monthName: monthName
     }
   })
+
+  const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+  // Declare min max variables
   console.log(`dataset: `, dataset)
   const minYear = d3.min(dataset.map(d => d.year))
   const maxYear = d3.max(dataset.map(d => d.year))
 
-  const minMonth = d3.min(dataset.map(d => d.month))
+  const minMonth = d3.min(dataset.map(d => d.date.getMonth()))
   console.log(`minMonth`, minMonth)
-  const maxMonth = d3.max(dataset.map(d => d.month))
+  const maxMonth = d3.max(dataset.map(d => d.date.getMonth()))
   console.log(`maxMonth`, maxMonth)
 
+  // Define scale
+  // const yScale = d3.scaleTime()
+  //   .domain(d3.extent(dataset.map(d => d.date.getMonth())))
+  //   .range([padding, (height - padding)])
+  const yScale = d3.scaleBand().range([padding, (height-padding)]).domain(month)
+
+  var x = d3.scaleTime().range([padding, width - padding]).domain([new Date(minYear, 0), new Date(maxYear, 0)]);
+  const xScale = d3.scaleTime()
+    .domain([new Date(minYear, 0), new Date(maxYear, 0)])
+    .range([padding, width - padding])
 
   // Add labels 
   // Title
@@ -61,6 +75,23 @@ const chart = async () => {
     .attr('id', 'description')
     .attr("x", width / 2)
     .attr("y", padding / 1) 
+
+  // Add axes
+  const xAxis = d3.axisBottom(xScale)
+    .tickFormat(d3.timeFormat("%Y"))
+  const yAxis = d3.axisLeft(yScale)
+
+  svg.append('g')
+    .call(xAxis.ticks(20))
+    .attr('id', 'x-axis')
+    .attr('class', 'axis')
+    .attr('transform', `translate(0, ${height - padding})`)
+
+  svg.append('g')
+    .call(yAxis)
+    .attr('id', 'y-axis')
+    .attr('class', 'axis')
+    .attr('transform', `translate(${padding}, 0)`)
 }
 
 chart()
