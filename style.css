@@ -26,6 +26,13 @@ body {
   text-anchor: middle;
 }
 
+#description {
+  font-family: Montserrat, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
 #chart {
   width: 80%;
   margin: 0 auto;
