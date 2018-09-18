@@ -82,7 +82,12 @@ const chart = async () => {
     .text(`${minYear}-${maxYear}: base temperature ${rawData.baseTemperature}`)
     .attr('id', 'description')
     .attr("x", width / 2)
-    .attr("y", padding / 1) 
+    .attr("y", padding / 1)
+    
+  // Tooltip  
+  const tooltip = d3.select('#chart').append('div')
+    .attr('id', 'tooltip')
+    .style('opacity', 0)
 
   // Add axes
   const xAxis = d3.axisBottom(xScale)
@@ -129,7 +134,18 @@ const chart = async () => {
     .attr('y', (d) => yScale(d.monthName))
     .attr('width', barWidth)
     .attr('height', barHeight)
-    .attr('fill', (d) => colorScale(d.variance)) 
+    .attr('fill', (d) => colorScale(d.variance))
+    .on('mouseover', (d) => {
+      tooltip.transition().duration(200).style('opacity', 0.9)
+      tooltip.html(
+        `<p>${d.year} - ${d.monthName}<br>
+        ${(d.variance + rawData.baseTemperature).toFixed(2) }&#8451<br>
+        ${d.variance.toFixed(2)}&#8451</p>`)
+        .attr('data-year', d.year)
+        .style('left', `${d3.event.layerX}px`)
+        .style('top', `${d3.event.layerY - 28}px`)
+    })
+    .on('mouseout', () => tooltip.transition().duration(500).style('opacity', 0)) 
 }
 
 chart()
