@@ -148,45 +148,6 @@ const chart = async () => {
     .attr('id', 'legend-title')
     .text('Temperature Gauge')
 
-  // //Append a defs (for definition) element to your SVG
-  // var defs = svg.append("defs");
-
-  // //Append a linearGradient element to the defs and give it a unique id
-  // var linearGradient = defs.append("linearGradient")
-  //   .attr("id", "linear-gradient");
-
-  // //Horizontal gradient
-  // linearGradient
-  //   .attr("x1", "0%")
-  //   .attr("y1", "0%")
-  //   .attr("x2", "100%")
-  //   .attr("y2", "0%")
-
-  // //Append multiple color stops by using D3's data/enter step
-  // linearGradient.selectAll("stop")
-  //   .data(colors)
-  //   .enter().append("stop")
-  //   .attr("offset", (d, i) => i / (colors.length - 1))
-  //   .attr("stop-color", (d) => d)
- 
-  // //Manually assign multiple colors  
-  // linearGradient.selectAll("stop")
-  //   .data([
-  //   { offset: "0%", color: colors[0] },
-  //   { offset: "12.5%", color: colors[1] },
-  //   { offset: "25%", color: colors[2] },
-  //   { offset: "37.5%", color: colors[3] },
-  //   { offset: "50%", color: colors[4] },
-  //   { offset: "62.5%", color: colors[5] },
-  //   { offset: "75%", color: colors[6] },
-  //   { offset: "87.5%", color: colors[7] },
-  //   { offset: "100%", color: colors[8] }
-  //     ]
-  //   )
-  //   .enter().append("stop")
-  //   .attr("offset", (d, i) => d.offset)
-  //   .attr("stop-color", (d) => d.color)
-
   // Add heatmap
   svg.selectAll('rect')
     .data(dataset)
