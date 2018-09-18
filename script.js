@@ -22,8 +22,24 @@ const chart = async () => {
   let getData = await fetch(url)
   let rawData = await getData.json()
   console.log(`rawData: `, rawData)
+  // let dataset = rawData.monthlyVariance
+  // console.log(`dataset: `, dataset)
   console.log(`rawData.baseTemperature: `, rawData.baseTemperature)
-  console.log(`rawData.monthlyVariance: `, rawData.monthlyVariance)
+  let dataset = rawData.monthlyVariance.map(d => {
+    let newDate = new Date()
+    newDate.setFullYear(d.year, (d.month - 1), 01)
+    let monthName = newDate.toLocaleString("en-us", { month: "long" })
+    return {
+      year: d.year,
+      month: d.month,
+      variance: d.variance,
+      date: newDate,
+      monthName: monthName
+    }
+  })
+  console.log(`dataset: `, dataset)
+  const minYear = d3.min(dataset.map(d => d.year))
+  const maxYear = d3.max(dataset.map(d => d.year))
 
   // Add labels 
   // Title
@@ -32,6 +48,13 @@ const chart = async () => {
     .attr('id', 'title')
     .attr("x", width / 2)
     .attr("y", padding / 2) 
+
+  // Description
+  svg.append('text')
+    .text(`${minYear}-${maxYear}: base temperature ${rawData.baseTemperature}`)
+    .attr('id', 'description')
+    .attr("x", width / 2)
+    .attr("y", padding / 1) 
 }
 
 chart()
