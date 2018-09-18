@@ -21,10 +21,6 @@ const url = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData
 const chart = async () => {
   let getData = await fetch(url)
   let rawData = await getData.json()
-  console.log(`rawData: `, rawData)
-  // let dataset = rawData.monthlyVariance
-  // console.log(`dataset: `, dataset)
-  console.log(`rawData.baseTemperature: `, rawData.baseTemperature)
   let dataset = rawData.monthlyVariance.map(d => {
     let newDate = new Date()
     newDate.setFullYear(d.year, (d.month - 1), 01)
@@ -44,14 +40,8 @@ const chart = async () => {
   var colors = ["#5e4fa2", "#3288bd", "#66c2a5", "#abdda4", "#e6f598", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d53e4f", "#9e0142"];
   
   // Declare min max variables
-  console.log(`dataset: `, dataset)
   const minYear = d3.min(dataset.map(d => d.year))
   const maxYear = d3.max(dataset.map(d => d.year))
-
-  const minMonth = d3.min(dataset.map(d => d.date.getMonth()))
-  console.log(`minMonth`, minMonth)
-  const maxMonth = d3.max(dataset.map(d => d.date.getMonth()))
-  console.log(`maxMonth`, maxMonth)
 
   const barWidth = width / (dataset.length/12)
   const barHeight = height / 12
