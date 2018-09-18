@@ -8,6 +8,14 @@ var padding = 50
 var width = 800
 var height = 400
 
+// Create svg and append to chart div
+var svg = d3.select('#chart')
+  .append('svg')
+  .attr('class', 'graph')
+  .attr('width', width + margin.left + margin.right)
+  .attr('height', height + margin.top + margin.bottom)
+
+
 // Get the data
 const url = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json'
 const chart = async () => {
@@ -16,6 +24,14 @@ const chart = async () => {
   console.log(`rawData: `, rawData)
   console.log(`rawData.baseTemperature: `, rawData.baseTemperature)
   console.log(`rawData.monthlyVariance: `, rawData.monthlyVariance)
+
+  // Add labels 
+  // Title
+  svg.append('text')
+    .text('Monthly Global Land-Surface Temperature')
+    .attr('id', 'title')
+    .attr("x", width / 2)
+    .attr("y", padding / 2) 
 }
 
 chart()
