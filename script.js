@@ -2,10 +2,10 @@
 
 // Set the margin and padding of the SVG
 var margin = { top: 50, right: 20, bottom: 50, left: 100 }
-var padding = 50
+var padding = 60
 
 // Set the width and height using the current width and height of the div
-var width = 800
+var width = 960
 var height = 400
 
 // Create svg and append to chart div
@@ -39,7 +39,10 @@ const chart = async () => {
   })
 
   const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-
+  // const colors = ["#ef5350", "#EC407A", "#AB47BC", "#7E57C2", "#5C6BC0", "#42A5F5", "#26C6DA", "#26A69A", "#D4E157", "#FFEE58", "#FFA726"]
+  
+  var colors = ["#5e4fa2", "#3288bd", "#66c2a5", "#abdda4", "#e6f598", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d53e4f", "#9e0142"];
+  
   // Declare min max variables
   console.log(`dataset: `, dataset)
   const minYear = d3.min(dataset.map(d => d.year))
@@ -50,6 +53,9 @@ const chart = async () => {
   const maxMonth = d3.max(dataset.map(d => d.date.getMonth()))
   console.log(`maxMonth`, maxMonth)
 
+  const barWidth = width / (dataset.length/12)
+  const barHeight = height / 12
+
   // Define scale
   const yScale = d3.scaleBand()
     .domain(month)
@@ -57,7 +63,11 @@ const chart = async () => {
 
   const xScale = d3.scaleTime()
     .domain([new Date(minYear, 0), new Date(maxYear, 0)])
-    .range([padding, width - padding])
+    .range([padding, width-padding])
+
+  const colorScale = d3.scaleQuantile()
+    .domain(d3.extent(dataset, (d) => d.variance)) 
+    .range(colors)
 
   // Add labels 
   // Title
@@ -105,6 +115,21 @@ const chart = async () => {
     .attr('y', height)
     .attr('class', 'labels')
     .text('Years')
+
+  // Add heatmap
+  svg.selectAll('rect')
+    .data(dataset)
+    .enter()
+    .append('rect') 
+    .attr('class', 'cell')
+    .attr('data-month', (d) => d.date.getMonth())
+    .attr('data-year', (d) => d.year)
+    .attr('data-temp', (d) => d.variance)
+    .attr('x', (d) => xScale(d.date))
+    .attr('y', (d) => yScale(d.monthName))
+    .attr('width', barWidth)
+    .attr('height', barHeight)
+    .attr('fill', (d) => colorScale(d.variance)) 
 }
 
 chart()
