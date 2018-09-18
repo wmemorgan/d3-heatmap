@@ -122,6 +122,8 @@ const chart = async () => {
     .text('Years')
 
   // Legend
+  // Based on tutorial by Nadia Bremer
+  // https://www.visualcinnamon.com/2016/05/smooth-color-legend-d3-svg-gradient.html
   const legend = svg.append('g')
     .attr('id', 'legend')
 
