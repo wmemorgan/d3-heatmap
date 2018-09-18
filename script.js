@@ -51,12 +51,10 @@ const chart = async () => {
   console.log(`maxMonth`, maxMonth)
 
   // Define scale
-  // const yScale = d3.scaleTime()
-  //   .domain(d3.extent(dataset.map(d => d.date.getMonth())))
-  //   .range([padding, (height - padding)])
-  const yScale = d3.scaleBand().range([padding, (height-padding)]).domain(month)
+  const yScale = d3.scaleBand()
+    .domain(month)
+    .range([padding, (height-padding)])
 
-  var x = d3.scaleTime().range([padding, width - padding]).domain([new Date(minYear, 0), new Date(maxYear, 0)]);
   const xScale = d3.scaleTime()
     .domain([new Date(minYear, 0), new Date(maxYear, 0)])
     .range([padding, width - padding])
@@ -79,6 +77,7 @@ const chart = async () => {
   // Add axes
   const xAxis = d3.axisBottom(xScale)
     .tickFormat(d3.timeFormat("%Y"))
+    
   const yAxis = d3.axisLeft(yScale)
 
   svg.append('g')
