@@ -2,7 +2,7 @@
 
 // Set the margin and padding of the SVG
 var margin = { top: 50, right: 20, bottom: 50, left: 100 }
-var padding = 60
+var padding = 50
 
 // Set the width and height using the current width and height of the div
 var width = 960
@@ -64,15 +64,13 @@ const chart = async () => {
   svg.append('text')
     .text('Monthly Global Land-Surface Temperature')
     .attr('id', 'title')
-    .attr("x", width / 2)
-    .attr("y", padding / 2) 
+    .attr(`transform`, `translate(${width / 2}, ${padding / 3})`)
 
   // Description
   svg.append('text')
     .text(`${minYear}-${maxYear}: base temperature ${rawData.baseTemperature}`)
     .attr('id', 'description')
-    .attr("x", width / 2)
-    .attr("y", padding / 1)
+    .attr(`transform`, `translate(${width / 2}, ${padding / 1.25})`)
     
   // Tooltip  
   const tooltip = d3.select('#chart').append('div')
